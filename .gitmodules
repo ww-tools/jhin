@@ -1,0 +1,3 @@
+[submodule "junie-guidelines"]
+	path = junie-guidelines
+	url = https://github.com/ww-tools/junie-guidelines.git
