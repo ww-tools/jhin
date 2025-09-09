@@ -5,12 +5,9 @@ import org.springframework.boot.SpringApplication;
 public class TestJhinApplication
 {
 
-    static void main(String[] args)
+    public static void main(String[] args)
     {
-        SpringApplication
-                .from(JhinApplication::main)
-                .with(TestcontainersConfiguration.class)
-                .run(args);
+        SpringApplication.from(JhinApplication::main).with(TestcontainersConfiguration.class).run(args);
     }
 
 }
