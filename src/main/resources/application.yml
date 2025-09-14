@@ -1,9 +1,3 @@
 spring:
   application:
     name: jhin
-  threads:
-    virtual:
-      enabled: true
-
-riot:
-  match-list-start: 2021-06-16

@@ -7,7 +7,10 @@ public class TestJhinApplication
 
     public static void main(String[] args)
     {
-        SpringApplication.from(JhinApplication::main).with(TestcontainersConfiguration.class).run(args);
+        SpringApplication
+                .from(JhinApplication::main)
+                .with(TestcontainersConfiguration.class)
+                .run(args);
     }
 
 }
