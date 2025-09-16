@@ -29,7 +29,19 @@
     <properties>
         <java.version>24</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <spring-cloud.version>2025.1.0-M1</spring-cloud.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- Spring Boot Starters -->
         <dependency>
@@ -148,6 +160,10 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
         </dependency>
     </dependencies>
 
