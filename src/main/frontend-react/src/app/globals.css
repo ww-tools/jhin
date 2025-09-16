@@ -6,6 +6,7 @@
     --foreground: #171717;
 }
 
+/*noinspection ALL*/
 @theme inline
 {
     --color-background: var(--background);
