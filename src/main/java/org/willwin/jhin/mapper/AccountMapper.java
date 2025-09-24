@@ -4,13 +4,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.willwin.jhin.document.account.AccountDocument;
 import org.willwin.jhin.domain.riot.account.Account;
-import org.willwin.jhin.mapper.config.BaseMapperConfig;
+import org.willwin.jhin.mapper.configuration.BaseMapperConfiguration;
 
 /**
  * MapStruct mapper for converting between Account domain objects and AccountDocument.
  * This mapper handles the transformation from domain model to MongoDB document model.
  */
-@Mapper(config = BaseMapperConfig.class)
+@Mapper(config = BaseMapperConfiguration.class)
 public interface AccountMapper
 {
 

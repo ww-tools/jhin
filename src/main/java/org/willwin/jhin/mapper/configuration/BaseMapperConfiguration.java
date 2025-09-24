@@ -1,4 +1,4 @@
-package org.willwin.jhin.mapper.config;
+package org.willwin.jhin.mapper.configuration;
 
 import org.mapstruct.MapperConfig;
 import org.mapstruct.MappingConstants;
@@ -13,7 +13,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE
 )
-public interface BaseMapperConfig
+public interface BaseMapperConfiguration
 {
 
 }

@@ -7,9 +7,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.willwin.jhin.document.BaseDocument;
+import org.willwin.jhin.document.match.MatchDocument;
+import org.willwin.jhin.document.match.MatchTimelineDocument;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * MongoDB document representing a Riot Games League of Legends account.
@@ -51,5 +57,16 @@ public class AccountDocument extends BaseDocument
      */
     @Field("tag_line")
     private String tagLine;
+
+    @Field("last_match_list_update_date")
+    private Instant lastMatchListUpdateDate;
+
+    @DBRef(lazy = true)
+    @Field("match_timelines")
+    private List<MatchTimelineDocument> matchTimelines;
+
+    @DBRef(lazy = true)
+    @Field("matches")
+    private List<MatchDocument> matches;
 
 }

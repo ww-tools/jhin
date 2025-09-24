@@ -54,13 +54,13 @@ import org.willwin.jhin.domain.riot.match.TimelineInfo;
 import org.willwin.jhin.domain.riot.match.TimelineMetadata;
 import org.willwin.jhin.domain.riot.match.TimelineParticipant;
 import org.willwin.jhin.domain.riot.match.VictimDamage;
-import org.willwin.jhin.mapper.config.BaseMapperConfig;
+import org.willwin.jhin.mapper.configuration.BaseMapperConfiguration;
 
 /**
  * MapStruct mapper for converting between Match-related domain objects and their corresponding documents.
  * This mapper handles the transformation from domain model to MongoDB document model for all match entities.
  */
-@Mapper(config = BaseMapperConfig.class)
+@Mapper(config = BaseMapperConfiguration.class)
 public interface MatchMapper
 {
 
