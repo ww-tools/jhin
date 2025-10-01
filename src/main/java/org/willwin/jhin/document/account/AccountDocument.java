@@ -43,6 +43,17 @@ public class AccountDocument extends BaseDocument
     @Id
     private String id;
 
+    @Field("last_match_list_update_date")
+    private Instant lastMatchListUpdateDate;
+
+    @DBRef(lazy = true)
+    @Field("match_timelines")
+    private List<MatchTimelineDocument> matchTimelines;
+
+    @DBRef(lazy = true)
+    @Field("matches")
+    private List<MatchDocument> matches;
+
     /**
      * The encrypted PUUID (Player Universally Unique Identifier).
      * This is a unique identifier for the player across all Riot games.
@@ -57,16 +68,5 @@ public class AccountDocument extends BaseDocument
      */
     @Field("tag_line")
     private String tagLine;
-
-    @Field("last_match_list_update_date")
-    private Instant lastMatchListUpdateDate;
-
-    @DBRef(lazy = true)
-    @Field("match_timelines")
-    private List<MatchTimelineDocument> matchTimelines;
-
-    @DBRef(lazy = true)
-    @Field("matches")
-    private List<MatchDocument> matches;
 
 }

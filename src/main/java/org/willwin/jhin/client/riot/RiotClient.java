@@ -9,12 +9,12 @@ import org.willwin.jhin.client.riot.match.MatchClient;
 import org.willwin.jhin.domain.riot.Platform;
 import org.willwin.jhin.domain.riot.Region;
 import org.willwin.jhin.domain.riot.account.Account;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,15 +54,35 @@ public class RiotClient
         ).mapNotNull(HttpEntity::getBody);
     }
 
-    public Mono<List<String>> getMatchIds(Platform platform, String puuid)
+    public Flux<List<String>> getMatchIds(Platform platform, String puuid)
     {
-        List<String> matchIds = new ArrayList<>();
         Long startTime = properties
                 .getMatchListStart()
                 .toEpochSecond(LocalTime.MIN, ZoneOffset.UTC);
         Long endTime = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-        return Mono.just(matchIds);
+        return getMatchIds(platform, puuid, startTime, endTime);
     }
 
+    public Flux<List<String>> getMatchIds(
+            Platform platform,
+            String puuid,
+            Long startTime,
+            Long endTime)
+    {
+        return Flux
+                .range(0, Integer.MAX_VALUE)
+                .map(i -> i * 100)
+                .concatMap(start -> matchClient.getMatchIdsByPuuid(
+                        Objects
+                                .requireNonNull(
+                                        Region.getRegionForPlatform(platform))
+                                .getHost(), puuid, startTime, endTime, null,
+                        "ranked", start, 100
+                ))
+                .mapNotNull(HttpEntity::getBody)
+                .takeWhile(matchIds -> !Objects
+                        .requireNonNull(matchIds)
+                        .isEmpty());
+    }
 
 }

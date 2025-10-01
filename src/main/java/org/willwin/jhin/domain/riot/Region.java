@@ -17,11 +17,10 @@ public enum Region
      * Includes platforms: BR1, LA1, LA2, NA1, OC1
      */
     AMERICAS(
-            "americas.api.riotgames.com",
-            Set.of(
-                    Platform.BR1, Platform.LA1, Platform.LA2, Platform.NA1,
-                    Platform.OC1
-            )
+            "americas.api.riotgames.com", Set.of(
+            Platform.BR1, Platform.LA1, Platform.LA2, Platform.NA1,
+            Platform.OC1
+    )
     ),
 
     /**
@@ -44,11 +43,10 @@ public enum Region
      * Includes platforms: PH2, SG2, TH2, TW2, VN2
      */
     SEA(
-            "sea.api.riotgames.com",
-            Set.of(
-                    Platform.PH2, Platform.SG2, Platform.TH2, Platform.TW2,
-                    Platform.VN2
-            )
+            "sea.api.riotgames.com", Set.of(
+            Platform.PH2, Platform.SG2, Platform.TH2, Platform.TW2,
+            Platform.VN2
+    )
     );
 
     private final String host;
