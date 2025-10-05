@@ -1,7 +1,8 @@
 spring:
   application:
     name: jhin
-  mongodb:
-    database: jhin
-    host: localhost
-    port: 27016
+  data:
+    mongodb:
+      database: jhin
+      host: localhost
+      port: 27016
