@@ -4,39 +4,3 @@ spring:
   threads:
     virtual:
       enabled: true
-
-riot:
-  api-key: ${RIOT_API_KEY}
-  match-list-start: 2021-06-16
-
-resilience4j:
-  ratelimiter:
-    instances:
-      riot-client-burst-limit:
-        limit-for-period: 500
-        limit-refresh-period: 10s
-        timeout-duration: 0
-      riot-client-limit:
-        limit-for-period: 30000
-        limit-refresh-period: 10m
-        timeout-duration: 0
-      account-by-puuid:
-        limit-for-period: 1000
-        limit-refresh-period: 1m
-        timeout-duration: 0
-      account-by-riot-id:
-        limit-for-period: 1000
-        limit-refresh-period: 1m
-        timeout-duration: 0
-      match-ids-by-puuid:
-        limit-for-period: 2000
-        limit-refresh-period: 10s
-        timeout-duration: 0
-      match-by-id:
-        limit-for-period: 2000
-        limit-refresh-period: 10s
-        timeout-duration: 0
-      match-timeline-by-id:
-        limit-for-period: 2000
-        limit-refresh-period: 10s
-        timeout-duration: 0
