@@ -77,8 +77,3 @@ licenseRules:
 
 # Fail threshold - adjust as needed
 failThreshold: 0
-
-# Bootstrap configuration for dependencies
-bootstrap: |
-  npm install
-  mvn clean compile
