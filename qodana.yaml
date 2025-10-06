@@ -1,10 +1,84 @@
 version: "1.0"
 profile:
-  name: qodana.starter
+  name: qodana.recommended
+include:
+  # Java Inspections
+  - group: Java
+  - group: JVM languages
+  
+  # Spring Boot Inspections
+  - group: Spring
+  - group: Spring Boot
+  - group: Spring Core
+  - group: Spring Data
+  - group: Spring MVC
+  - group: Spring Security
+  
+  # TypeScript and JavaScript Inspections
+  - group: TypeScript
+  - group: JavaScript
+  - group: JavaScript and TypeScript
+  - group: ECMAScript 6
+  
+  # React and Next.js Inspections
+  - group: React
+  
+  # Code Quality
+  - group: Code style issues
+  - group: Error handling
+  - group: Probable bugs
+  - group: Security
+  - group: Performance
+  - group: Memory
+  
+  # Best Practices
+  - group: Abstraction issues
+  - group: Assignment issues
+  - group: Class structure
+  - group: Code maturity
+  - group: Control flow issues
+  - group: Declaration redundancy
+  - group: Dependency issues
+  - group: Encapsulation
+  - group: Exception handling
+  - group: Imports
+  - group: Initialization
+  - group: Naming conventions
+  - group: Nullability problems
+  - group: Resource management
+  - group: Threading issues
+  - group: Visibility
+
 exclude:
   - name: All
     paths:
       - pom.xml
+      - .next/
+      - node_modules/
+      - build/
+      - target/
+      - dist/
+      - out/
+      - .gradle/
+      - coverage/
+      
+  # Exclude common false positives
+  - name: UnusedProperty
+    paths:
+      - "**.properties"
+  - name: JSUnusedGlobalSymbols
+    paths:
+      - "**.config.js"
+      - "**.config.ts"
+
 licenseRules:
   - allowed:
       - "*"
+
+# Fail threshold - adjust as needed
+failThreshold: 0
+
+# Bootstrap configuration for dependencies
+bootstrap: |
+  npm install
+  mvn clean compile
