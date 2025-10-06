@@ -8,3 +8,91 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
+        alphanumeric-ids:
+          enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+  simple:
+    metrics:
+      export:
+        enabled: true
+riot:
+  api-key: ${RIOT_API_KEY}
+  match-list-start-date: 2021-06-16
+  default-api-url: https://americas.api.riotgames.com/
+resilience4j:
+  ratelimiter:
+    instances:
+      riot-burst:
+        limit-for-period: 500
+        limit-refresh-period: 10s
+        timeout-duration: 1s
+      riot-slow:
+        limit-for-period: 30000
+        limit-refresh-period: 10m
+        timeout-duration: 1s
+      get-account-by-puuid:
+        limit-for-period: 1000
+        limit-refresh-period: 1m
+        timeout-duration: 1s
+      get-account-by-riot-id:
+        limit-for-period: 1000
+        limit-refresh-period: 1m
+        timeout-duration: 1s
+      get-match-ids-by-puuid:
+        limit-for-period: 2000
+        limit-refresh-period: 10s
+        timeout-duration: 1s
+      get-match-by-match-id:
+        limit-for-period: 2000
+        limit-refresh-period: 10s
+        timeout-duration: 1s
+      get-match-timeline-by-match-id:
+        limit-for-period: 2000
+        limit-refresh-period: 10s
+        timeout-duration: 1s
+  circuitbreaker:
+    instances:
+      get-account-by-puuid:
+        sliding-window-size: 50
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      get-account-by-riot-id:
+        sliding-window-size: 50
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      get-match-ids-by-puuid:
+        sliding-window-size: 100
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      get-match-by-match-id:
+        sliding-window-size: 100
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      get-match-timeline-by-match-id:
+        sliding-window-size: 100
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+  retry:
+    instances:
+      get-account-by-puuid:
+        max-attempts: 3
+      get-account-by-riot-id:
+        max-attempts: 3
+      get-match-ids-by-puuid:
+        max-attempts: 3
+      get-match-by-match-id:
+        max-attempts: 3
+      get-match-timeline-by-match-id:
+        max-attempts: 3

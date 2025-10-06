@@ -1,8 +1,10 @@
 package org.willwin.jhin.model.domain;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.net.URI;
 import java.util.Set;
 
 /**
@@ -59,6 +61,7 @@ public enum Region
      * @param platform the platform to find the region for
      * @return the region containing the platform, or null if not found
      */
+    @NonNull
     public static Region getRegionForPlatform(Platform platform)
     {
         for (Region region : values())
@@ -68,7 +71,8 @@ public enum Region
                 return region;
             }
         }
-        return null;
+        throw new IllegalArgumentException(
+                "Platform " + platform + " is not a valid platform for any region");
     }
 
     /**
@@ -79,5 +83,10 @@ public enum Region
     public Set<Platform> getPlatforms()
     {
         return Set.copyOf(platforms);
+    }
+
+    public URI getUri()
+    {
+        return URI.create("https://" + host);
     }
 }
