@@ -1,10 +1,12 @@
 package org.willwin.jhin.model.document;
 
+import jakarta.persistence.EntityListeners;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
@@ -13,6 +15,7 @@ import java.time.Instant;
  * Base document class containing common audit fields for MongoDB documents.
  * All MongoDB document classes should extend this class to inherit audit functionality.
  */
+@EntityListeners(AuditingEntityListener.class)
 @Data
 public abstract class BaseDocument
 {
