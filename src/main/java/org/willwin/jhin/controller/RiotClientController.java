@@ -10,6 +10,8 @@ import org.willwin.jhin.model.domain.Platform;
 import org.willwin.jhin.model.domain.account.Account;
 import org.willwin.jhin.riot.RiotClient;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/riot")
 @RequiredArgsConstructor
@@ -26,5 +28,14 @@ class RiotClientController
         return ResponseEntity.ok(
                 riotClient.getAccountByRiotId(Platform.NA1, gameName, tagLine));
     }
+
+    @GetMapping("/match/by-puuid/{puuid}/ids")
+    ResponseEntity<List<String>> getMatchIdsByPuuid(
+            @PathVariable String puuid)
+    {
+        return ResponseEntity.ok(riotClient
+                .getMatchIdsByPuuid(Platform.NA1, puuid, null));
+    }
+
 
 }

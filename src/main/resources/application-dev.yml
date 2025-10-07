@@ -6,3 +6,13 @@ spring:
       database: jhin
       host: localhost
       port: 27016
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            logger-level: full
+
+logging:
+  level:
+    org.willwin.jhin: TRACE
