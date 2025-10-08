@@ -1,5 +1,6 @@
 package org.willwin.jhin.service;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.willwin.jhin.model.document.account.AccountDocument;
@@ -9,13 +10,11 @@ import org.willwin.jhin.model.mapper.AccountMapper;
 import org.willwin.jhin.repository.AccountRepository;
 import org.willwin.jhin.riot.RiotClient;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AccountUpdateService
+class AccountUpdateService
 {
 
     private final RiotClient riotClient;
@@ -24,9 +23,16 @@ public class AccountUpdateService
 
     private final AccountRepository accountRepository;
 
-    public AccountDocument updateAccount(Platform platform, String puuid) {
-        Account account =  riotClient.getAccountByPuuid(platform, puuid);
-        return updateAccount(platform, account);
+    public AccountDocument updateAccount(Platform platform, String puuid)
+    {
+        Optional<AccountDocument> existingAccountDocument = accountRepository.findById(
+                puuid);
+        if (existingAccountDocument.isPresent())
+        {
+            return updateAccount(platform, existingAccountDocument.get());
+        }
+        Account account = riotClient.getAccountByPuuid(platform, puuid);
+        return newAccount(platform, account);
     }
 
     public AccountDocument updateAccount(
@@ -34,23 +40,33 @@ public class AccountUpdateService
             String gameName,
             String tagLine)
     {
-        Account account = riotClient.getAccountByRiotId(platform, gameName, tagLine);
-        return updateAccount(platform, account);
+        Optional<AccountDocument> existingAccountDocument = accountRepository.findByGameNameAndTagLine(
+                gameName, tagLine);
+        if (existingAccountDocument.isPresent())
+        {
+            return updateAccount(platform, existingAccountDocument.get());
+        }
+        Account account = riotClient.getAccountByRiotId(
+                platform, gameName, tagLine);
+        return newAccount(platform, account);
     }
 
-    private AccountDocument updateAccount(Platform platform, Account account) {
-        String puuid = account.getPuuid();
-        AccountDocument accountDocument = accountRepository.findById(puuid).orElse(null);
-        if (accountDocument == null) {
-            accountDocument = accountMapper.toDocument(account);
-        }
-        List<String> matchIds = riotClient.getMatchIdsByPuuid(platform, puuid, accountDocument.getLastMatchListUpdateDate());
-        if (accountDocument.getMatchIds() == null) {
-            accountDocument.setMatchIds(new ArrayList<>());
-        }
-        accountDocument.getMatchIds().addAll(matchIds);
-        accountDocument.setLastMatchListUpdateDate(Instant.now());
-        accountDocument.setPlatform(platform);
+    private AccountDocument updateAccount(
+            Platform platform,
+            @NonNull AccountDocument accountDocument)
+    {
+        Account account = riotClient.getAccountByPuuid(
+                platform, accountDocument.getPuuid());
+        accountDocument.setGameName(account.getGameName());
+        accountDocument.setTagLine(account.getTagLine());
         return accountRepository.save(accountDocument);
     }
+
+    private AccountDocument newAccount(Platform platform, Account account)
+    {
+        AccountDocument document = accountMapper.toDocument(account);
+        document.setPlatform(platform);
+        return accountRepository.save(document);
+    }
+
 }

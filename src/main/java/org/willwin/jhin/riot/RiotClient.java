@@ -7,6 +7,8 @@ import org.willwin.jhin.feign.match.MatchClient;
 import org.willwin.jhin.model.domain.Platform;
 import org.willwin.jhin.model.domain.Region;
 import org.willwin.jhin.model.domain.account.Account;
+import org.willwin.jhin.model.domain.match.Match;
+import org.willwin.jhin.model.domain.match.MatchTimeline;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -29,9 +31,10 @@ public class RiotClient
 
     public Account getAccountByPuuid(Platform platform, String puuid)
     {
+        URI host = Region.getRegionForPlatform(platform).getUri();
         return rateLimiter
-                .withRateLimit(() -> accountClient.getAccountByPuuid(
-                        Region.getRegionForPlatform(platform).getUri(), puuid))
+                .withRateLimit(
+                        () -> accountClient.getAccountByPuuid(host, puuid))
                 .getBody();
     }
 
@@ -40,11 +43,13 @@ public class RiotClient
             String gameName,
             String tagLine)
     {
+        URI host = Region.getRegionForPlatform(platform).getUri();
         return rateLimiter
-                .withRateLimit(() -> accountClient.getAccountByRiotId(
-                        Region.getRegionForPlatform(platform).getUri(),
-                        gameName, tagLine
-                ))
+                .withRateLimit(
+                        () -> accountClient.getAccountByRiotId(
+                                host, gameName,
+                                tagLine
+                        ))
                 .getBody();
     }
 
@@ -74,6 +79,23 @@ public class RiotClient
                 .sort(Comparator.reverseOrder())
                 .collectList()
                 .block();
+    }
+
+    public Match getMatchById(Platform platform, String matchId)
+    {
+        URI host = Region.getRegionForPlatform(platform).getUri();
+        return rateLimiter
+                .withRateLimit(() -> matchClient.getMatchById(host, matchId))
+                .getBody();
+    }
+
+    public MatchTimeline getMatchTimelineById(Platform platform, String matchId)
+    {
+        URI host = Region.getRegionForPlatform(platform).getUri();
+        return rateLimiter
+                .withRateLimit(
+                        () -> matchClient.getMatchTimelineById(host, matchId))
+                .getBody();
     }
 
 }
