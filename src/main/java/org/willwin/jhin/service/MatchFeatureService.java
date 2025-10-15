@@ -1,6 +1,7 @@
 package org.willwin.jhin.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.willwin.jhin.model.document.feature.ItemDocument;
 import org.willwin.jhin.model.document.feature.MatchFeatureDocument;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MatchFeatureService
@@ -30,9 +32,13 @@ public class MatchFeatureService
     public void updateMatchFeature(MatchDocument match)
     {
 
-        if (matchFeatureRepository.existsById(match.getId())) {
+        if (matchFeatureRepository.existsById(match.getId()))
+        {
+            log.debug(
+                    "Match feature for match {} already exists", match.getId());
             return;
         }
+        log.debug("Updating match feature for match {}", match.getId());
         MatchFeatureDocument matchFeature = new MatchFeatureDocument();
         matchFeature.setId(match.getId());
         matchFeature.setGameVersion(match.getInfo().getGameVersion());
@@ -62,19 +68,26 @@ public class MatchFeatureService
 
         participants.forEach((participantId, participant) ->
         {
-            ParticipantDocument opponent = findOpponent(participant, match.getInfo().getParticipants());
-            if (opponent == null) {
+            ParticipantDocument opponent = findOpponent(
+                    participant, match.getInfo().getParticipants());
+            if (opponent == null)
+            {
                 return;
             }
-            List<EventDocument> itemPurchasedEventsForParticipant = itemPurchasedEvents.getOrDefault(participantId, List.of()).stream().sorted(
-                    Comparator.comparing(EventDocument::getTimestamp)).toList();
+            List<EventDocument> itemPurchasedEventsForParticipant = itemPurchasedEvents
+                    .getOrDefault(participantId, List.of())
+                    .stream()
+                    .sorted(Comparator.comparing(EventDocument::getTimestamp))
+                    .toList();
             List<ItemDocument> items = new ArrayList<>();
-            for (int i = 0; i < itemPurchasedEventsForParticipant.size(); i++) {
+            for (int i = 0; i < itemPurchasedEventsForParticipant.size(); i++)
+            {
                 EventDocument event = itemPurchasedEventsForParticipant.get(i);
                 ItemDocument item = new ItemDocument();
                 item.setItemId(event.getItemId());
                 item.setPurchaseTime(event.getTimestamp());
                 item.setPurchaseOrder(i);
+                items.add(item);
             }
             MatchupFeatureDocument matchupFeature = new MatchupFeatureDocument();
             matchupFeature.setChampionId(participant.getChampionId());
