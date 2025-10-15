@@ -28,5 +28,7 @@ public enum MonsterType
     /**
      * Horde - monsters in special game modes.
      */
-    HORDE
+    HORDE,
+
+    ATAKHAN
 }

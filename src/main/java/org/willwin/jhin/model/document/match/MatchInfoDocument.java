@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.willwin.jhin.model.domain.Platform;
-import org.willwin.jhin.model.domain.match.EndOfGameResult;
 import org.willwin.jhin.model.domain.match.GameMode;
 import org.willwin.jhin.model.domain.match.GameType;
 
@@ -25,7 +24,7 @@ public class MatchInfoDocument
 {
 
     @Field("end_of_game_result")
-    private EndOfGameResult endOfGameResult;
+    private String endOfGameResult;
 
     @Field("game_creation")
     private Long gameCreation;

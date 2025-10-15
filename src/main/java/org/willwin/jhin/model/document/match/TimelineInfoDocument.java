@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.willwin.jhin.model.domain.match.EndOfGameResult;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class TimelineInfoDocument
 {
 
     @Field("end_of_game_result")
-    private EndOfGameResult endOfGameResult;
+    private String endOfGameResult;
 
     @Field("frame_interval")
     private Long frameInterval;

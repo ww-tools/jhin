@@ -37,41 +37,41 @@ resilience4j:
       riot-burst:
         limit-for-period: 500
         limit-refresh-period: 10s
-        timeout-duration: 1s
+        timeout-duration: 10s
       riot-slow:
         limit-for-period: 30000
         limit-refresh-period: 10m
-        timeout-duration: 1s
+        timeout-duration: 10m
       get-account-by-puuid:
         limit-for-period: 1000
         limit-refresh-period: 1m
-        timeout-duration: 1s
+        timeout-duration: 1m
       get-account-by-riot-id:
         limit-for-period: 1000
         limit-refresh-period: 1m
-        timeout-duration: 1s
+        timeout-duration: 1m
       get-match-ids-by-puuid:
         limit-for-period: 2000
         limit-refresh-period: 10s
-        timeout-duration: 1s
+        timeout-duration: 10s
       get-match-by-match-id:
         limit-for-period: 2000
         limit-refresh-period: 10s
-        timeout-duration: 1s
+        timeout-duration: 10s
       get-match-timeline-by-match-id:
         limit-for-period: 2000
         limit-refresh-period: 10s
-        timeout-duration: 1s
+        timeout-duration: 10s
   circuitbreaker:
     instances:
       get-account-by-puuid:
         sliding-window-size: 50
         failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
+        wait-duration-in-open-state: 1m
       get-account-by-riot-id:
         sliding-window-size: 50
         failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
+        wait-duration-in-open-state: 1m
       get-match-ids-by-puuid:
         sliding-window-size: 100
         failure-rate-threshold: 50
@@ -88,11 +88,21 @@ resilience4j:
     instances:
       get-account-by-puuid:
         max-attempts: 3
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
       get-account-by-riot-id:
         max-attempts: 3
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
       get-match-ids-by-puuid:
         max-attempts: 3
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
       get-match-by-match-id:
         max-attempts: 3
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
       get-match-timeline-by-match-id:
         max-attempts: 3
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2

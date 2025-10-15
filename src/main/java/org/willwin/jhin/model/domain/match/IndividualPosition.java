@@ -33,5 +33,7 @@ public enum IndividualPosition
     /**
      * Invalid or unassigned position.
      */
-    INVALID
+    INVALID,
+
+    Invalid
 }

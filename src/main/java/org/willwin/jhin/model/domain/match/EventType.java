@@ -15,6 +15,8 @@ public enum EventType
      */
     CHAMPION_KILL,
 
+    CHAMPION_SPECIAL_KILL,
+
     /**
      * Ward placed event.
      */
@@ -29,6 +31,8 @@ public enum EventType
      * Skill level up event.
      */
     SKILL_LEVEL_UP,
+
+    CHAMPION_TRANSFORM,
 
     /**
      * Item destroyed event.
@@ -50,15 +54,23 @@ public enum EventType
      */
     BUILDING_KILL,
 
+    OBJECTIVE_BOUNTY_PRESTART,
+
+    OBJECTIVE_BOUNTY_FINISH,
+
     /**
      * Elite monster kill event.
      */
     ELITE_MONSTER_KILL,
 
+    DRAGON_SOUL_GIVEN,
+
     /**
      * Turret plate destroyed event.
      */
     TURRET_PLATE_DESTROYED,
+
+    FEAT_UPDATE,
 
     /**
      * Level up event.

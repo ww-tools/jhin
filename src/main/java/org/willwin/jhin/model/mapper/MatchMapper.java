@@ -67,7 +67,7 @@ public interface MatchMapper
     // Main Match mappings
     @Mapping(
             target = "id",
-            ignore = true
+            source = "metadata.matchId"
     )
     MatchDocument toDocument(Match match);
 
@@ -86,7 +86,7 @@ public interface MatchMapper
     // MatchTimeline mappings
     @Mapping(
             target = "id",
-            ignore = true
+            source = "metadata.matchId"
     )
     MatchTimelineDocument toDocument(MatchTimeline matchTimeline);
 

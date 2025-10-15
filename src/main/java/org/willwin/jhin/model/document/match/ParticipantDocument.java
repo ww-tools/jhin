@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.willwin.jhin.model.domain.match.IndividualPosition;
 
 /**
  * MongoDB embedded document representing a participant in a League of Legends match.
@@ -130,7 +131,7 @@ public class ParticipantDocument
     private Integer holdPings;
 
     @Field("individual_position")
-    private String individualPosition;
+    private IndividualPosition individualPosition;
 
     @Field("inhibitor_kills")
     private Integer inhibitorKills;

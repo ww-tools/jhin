@@ -21,7 +21,7 @@ public class TimelineInfo
     /**
      * Result of the game ending (e.g., GAME_COMPLETE).
      */
-    private EndOfGameResult endOfGameResult;
+    private String endOfGameResult;
 
     /**
      * Interval between frames in milliseconds.

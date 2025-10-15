@@ -14,5 +14,4 @@ public class RiotFeignConfiguration
         return Feign.builder().requestInterceptor(riotApiHeaderInterceptor);
     }
 
-
 }

@@ -20,6 +20,8 @@ public enum Lane
      */
     MID,
 
+    MIDDLE,
+
     /**
      * Middle lane (descriptive form).
      */

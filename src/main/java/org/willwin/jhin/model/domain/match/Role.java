@@ -15,10 +15,14 @@ public enum Role
      */
     DUO_CARRY,
 
+    CARRY,
+
     /**
      * Duo support role - Support.
      */
     DUO_SUPPORT,
+
+    SUPPORT,
 
     /**
      * Solo role - top or mid lane.

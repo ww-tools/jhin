@@ -48,5 +48,7 @@ public enum GameMode
     /**
      * Tutorial mode.
      */
-    TUTORIAL
+    TUTORIAL,
+
+    CHERRY
 }

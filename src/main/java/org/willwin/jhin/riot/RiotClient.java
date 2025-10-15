@@ -9,14 +9,12 @@ import org.willwin.jhin.model.domain.Region;
 import org.willwin.jhin.model.domain.account.Account;
 import org.willwin.jhin.model.domain.match.Match;
 import org.willwin.jhin.model.domain.match.MatchTimeline;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.time.Instant;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
@@ -62,23 +60,19 @@ public class RiotClient
         Long startTimeSeconds = startTime != null ?
                 startTime.getEpochSecond() :
                 null;
-        return Flux
-                .range(0, Integer.MAX_VALUE)
-                .map(i -> i * 100)
-                .concatMap(startIndex -> Mono
-                        .fromCallable(() -> rateLimiter.withRateLimit(
-                                () -> matchClient.getMatchIdsByPuuid(
-                                        host, puuid, startTimeSeconds, null,
-                                        null, null, startIndex, 100
-                                )))
-                        .filter(response -> Objects.nonNull(response.getBody()))
-                        .mapNotNull(response -> Objects.requireNonNull(
-                                response.getBody())))
-                .takeWhile(matchIds -> !matchIds.isEmpty())
-                .flatMap(Flux::fromIterable)
-                .sort(Comparator.reverseOrder())
-                .collectList()
-                .block();
+        List<String> matchIds = new ArrayList<>();
+        List<String> page;
+        AtomicInteger startIndex = new AtomicInteger(0);
+        while ((page = rateLimiter
+                .withRateLimit(() -> matchClient.getMatchIdsByPuuid(
+                        host, puuid, startTimeSeconds, null, null, null,
+                        startIndex.getAndAdd(100), 100
+                ))
+                .getBody()) != null && !page.isEmpty())
+        {
+            matchIds.addAll(page);
+        }
+        return matchIds;
     }
 
     public Match getMatchById(Platform platform, String matchId)

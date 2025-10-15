@@ -23,7 +23,7 @@ public class MatchInfo
      * The result of the game at the end.
      * Examples: GAME_COMPLETE, SURRENDER, EARLY_SURRENDER
      */
-    private EndOfGameResult endOfGameResult;
+    private String endOfGameResult;
 
     /**
      * The timestamp when the game was created (in milliseconds since epoch).
