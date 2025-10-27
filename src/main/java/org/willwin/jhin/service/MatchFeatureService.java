@@ -32,16 +32,17 @@ public class MatchFeatureService
     public void updateMatchFeature(MatchDocument match)
     {
 
-        if (matchFeatureRepository.existsById(match.getId()))
-        {
-            log.debug(
-                    "Match feature for match {} already exists", match.getId());
-            return;
-        }
+//        if (matchFeatureRepository.existsById(match.getId()))
+//        {
+//            log.debug(
+//                    "Match feature for match {} already exists", match.getId());
+//            return;
+//        }
         log.debug("Updating match feature for match {}", match.getId());
         MatchFeatureDocument matchFeature = new MatchFeatureDocument();
         matchFeature.setId(match.getId());
         matchFeature.setGameVersion(match.getInfo().getGameVersion());
+        matchFeature.setQueueId(match.getInfo().getQueueId());
 
         MatchTimelineDocument timeline = match.getTimeline();
 
@@ -60,6 +61,7 @@ public class MatchFeatureService
                 .stream()
                 .map(FrameDocument::getEvents)
                 .flatMap(List::stream)
+                .filter(event -> Objects.nonNull(event.getType()))
                 .filter(event -> event.getType().equals("ITEM_PURCHASED"))
                 .collect(
                         Collectors.groupingBy(EventDocument::getParticipantId));

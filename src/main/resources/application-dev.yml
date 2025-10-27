@@ -16,3 +16,9 @@ spring:
 logging:
   level:
     org.willwin.jhin: TRACE
+data:
+  crawl:
+    update-all-accounts: false
+    update-all-matches: false
+    update-all-match-features: false
+    crawl-new-accounts: false

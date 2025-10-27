@@ -27,6 +27,9 @@ public class MatchFeatureDocument extends BaseDocument
     @Id
     private String id;
 
+    @Field("queue_id")
+    private Integer queueId;
+
     @Field("matchup_features")
     private List<MatchupFeatureDocument> matchupFeatures;
 

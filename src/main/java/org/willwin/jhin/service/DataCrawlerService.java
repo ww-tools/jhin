@@ -7,6 +7,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.willwin.jhin.configuration.DataCrawlConfiguration;
 import org.willwin.jhin.model.document.account.AccountDocument;
 import org.willwin.jhin.model.document.match.MatchDocument;
 import org.willwin.jhin.model.domain.Platform;
@@ -24,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class DataCrawlerService
 {
 
+    private final DataCrawlConfiguration dataCrawlConfiguration;
+
     private final AccountRepository accountRepository;
 
     private final MatchRepository matchRepository;
@@ -37,13 +40,17 @@ public class DataCrawlerService
     private final MatchFeatureService matchFeatureService;
 
     @Scheduled(
-            fixedRate = 12,
-            initialDelay = 10,
+            fixedRate = 15,
+            initialDelay = 0,
             timeUnit = TimeUnit.MINUTES
     )
     void updateAllAccounts()
     {
-        Pageable pageable = Pageable.ofSize(100);
+        if (!dataCrawlConfiguration.getUpdateAllAccounts())
+        {
+            return;
+        }
+        Pageable pageable = Pageable.ofSize(1000);
         Slice<AccountDocument> slice = accountRepository.findAll(pageable);
 
         if (!slice.hasContent())
@@ -79,13 +86,17 @@ public class DataCrawlerService
     }
 
     @Scheduled(
-            fixedRate = 12,
-            initialDelay = 14,
+            fixedRate = 15,
+            initialDelay = 15,
             timeUnit = TimeUnit.MINUTES
     )
     void updateAllMatches()
     {
-        Pageable pageable = Pageable.ofSize(100);
+        if (!dataCrawlConfiguration.getUpdateAllMatches())
+        {
+            return;
+        }
+        Pageable pageable = Pageable.ofSize(1000);
         Slice<AccountDocument> slice;
         int totalMatches = 0;
 
@@ -98,6 +109,7 @@ public class DataCrawlerService
                     .map(AccountDocument::getMatchIds)
                     .flatMap(List::stream)
                     .distinct()
+                    .filter(matchId -> !matchRepository.existsById(matchId))
                     .toList();
 
             totalMatches += matchIds.size();
@@ -116,13 +128,16 @@ public class DataCrawlerService
     }
 
     @Scheduled(
-            fixedRate = 12,
             initialDelay = 0,
             timeUnit = TimeUnit.MINUTES
     )
     void updateAllMatchFeatures()
     {
-        Pageable pageable = Pageable.ofSize(100);
+        if (!dataCrawlConfiguration.getUpdateAllMatchFeatures())
+        {
+            return;
+        }
+        Pageable pageable = Pageable.ofSize(1000);
         Slice<MatchDocument> slice;
         int totalMatches = 0;
         do
@@ -140,13 +155,17 @@ public class DataCrawlerService
     }
 
     @Scheduled(
-            fixedRate = 12,
-            initialDelay = 18,
+            fixedRate = 15,
+            initialDelay = 30,
             timeUnit = TimeUnit.MINUTES
     )
     void crawlNewAccounts()
     {
-        Pageable pageable = Pageable.ofSize(100);
+        if (!dataCrawlConfiguration.getCrawlNewAccounts())
+        {
+            return;
+        }
+        Pageable pageable = Pageable.ofSize(1000);
         Slice<MatchDocument> slice;
         int totalParticipants = 0;
 
